@@ -1,5 +1,5 @@
 import unittest
-from utils import Log, open_json
+from utils import log_to_records, open_json
 from parameterized import parameterized, parameterized_class
 
 
@@ -21,16 +21,13 @@ class TestCAF(unittest.TestCase):
         cls.CAF_Vehicle_Speed_Limit: int
         cls.CAF_TimeOut: int
 
-    @parameterized.expand(
-        [
-            (
-                "Normal behaviour",
-                "../logs/tca_1_log.json",
-                [False, True],
-            ),
-        ],
-    )
-    def test_caf_activation(self, _, log_path, outcomes):
-        for i, data in enumerate(open_json(log_path)):
-            log = Log(data)
-            self.assertEqual(outcomes[i], log.CAF_Is_Active)
+    def test_correct_behaviour(self):
+        log = log_to_records("../logs/correct_behaviour_log.json")
+
+        r = log[0]
+        self.assertLessEqual(r.Actual_Vehicle_Speed, self.CAF_Vehicle_Speed_Limit)
+        self.assertTrue(r.Sensor_Input_Ok)
+        self.assertEqual(1, r.Vehicle_State)
+
+        r = log[1]
+        self.assertTrue(r.CAF_Is_Active)
