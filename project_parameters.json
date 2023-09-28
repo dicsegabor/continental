@@ -1,14 +1,12 @@
-{
-  "projects": [
-    {
-      "name": "StarInTheCircle",
-      "CAF_Vehicle_Speed_Limit": 50,
-      "CAF_TimeOut": 750
-    },
-    {
-      "name": "BlueAndWhiteCircle",
-      "CAF_Vehicle_Speed_Limit": 60,
-      "CAF_TimeOut": 500
-    }
-  ]
-}
+[
+  {
+    "name": "StarInTheCircle",
+    "CAF_Vehicle_Speed_Limit": 50,
+    "CAF_TimeOut": 750
+  },
+  {
+    "name": "BlueAndWhiteCircle",
+    "CAF_Vehicle_Speed_Limit": 60,
+    "CAF_TimeOut": 500
+  }
+]

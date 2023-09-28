@@ -3,6 +3,7 @@ from utils import Log, open_json
 from parameterized import parameterized, parameterized_class
 
 
+# Naming the generated test classes afer the projects
 def get_class_name(cls, _, params):
     return "%s_%s" % (
         cls.__name__,
@@ -11,7 +12,7 @@ def get_class_name(cls, _, params):
 
 
 @parameterized_class(
-    open_json("../project_parameters.json")["projects"],
+    open_json("../project_parameters.json"),
     class_name_func=get_class_name,
 )
 class TestCAF(unittest.TestCase):
@@ -22,10 +23,14 @@ class TestCAF(unittest.TestCase):
 
     @parameterized.expand(
         [
-            (0, "../logs/tca_1_log.json", True),
-            (1, "../logs/tca_2_log.json", False),
+            (
+                "Normal behaviour",
+                "../logs/tca_1_log.json",
+                [False, True],
+            ),
         ],
     )
-    def test_caf_activation(self, _, log_path, outcome):
-        log = Log(log_path)
-        self.assertEqual(outcome, log.CAF_Is_Active)
+    def test_caf_activation(self, _, log_path, outcomes):
+        for i, data in enumerate(open_json(log_path)):
+            log = Log(data)
+            self.assertEqual(outcomes[i], log.CAF_Is_Active)
