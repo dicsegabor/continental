@@ -2,6 +2,6 @@ StarInTheCircle:
   CAF_Vehicle_Speed_Limit: 50
   CAF_TimeOut: 750
 
-BlueAndWhiteCirlce:
+BlueAndWhiteCircle:
   CAF_Vehicle_Speed_Limit: 60
   CAF_TimeOut: 500
