@@ -1,2 +1,5 @@
 ./venv
-pyrightconfig.json
+./src/__pycache__
+./pyrightconfig.json
+./test_report.html
+

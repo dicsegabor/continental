@@ -1,13 +1,16 @@
+import os
 import unittest
-from utils import log_to_records, open_json
 from parameterized import parameterized, parameterized_class
+
+from utils import log_to_records, open_json
+import HTMLTestRunner
 
 
 # Naming the generated test classes afer the projects
 def get_class_name(cls, _, params):
     return "%s_%s" % (
         cls.__name__,
-        parameterized.to_safe_name(params["name"]),
+        parameterized.to_safe_name(params["project_name"]),
     )
 
 
@@ -18,16 +21,44 @@ def get_class_name(cls, _, params):
 class TestCAF(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        # setting up project specific variables
+        cls.project_name: str
         cls.CAF_Vehicle_Speed_Limit: int
         cls.CAF_TimeOut: int
 
-    def test_correct_behaviour(self):
-        log = log_to_records("../logs/correct_behaviour_log.json")
+        cls.log_dir = "../logs/" + cls.project_name + "/"
 
-        r = log[0]
-        self.assertLessEqual(r.Actual_Vehicle_Speed, self.CAF_Vehicle_Speed_Limit)
-        self.assertTrue(r.Sensor_Input_Ok)
-        self.assertEqual(1, r.Vehicle_State)
+        cls.generate_test_data()
 
-        r = log[1]
-        self.assertTrue(r.CAF_Is_Active)
+    # Maybe for test data generation based on the project settings
+    @classmethod
+    def generate_test_data(cls):
+        pass
+
+    def test_caf_activation(self):
+        case_logs_path = self.log_dir + "caf_activation"
+        for filename in os.listdir(case_logs_path):
+            filename = os.path.join(case_logs_path, filename)
+            log = log_to_records(filename)
+
+            r = log.pop(0)
+            self.assertLessEqual(r.Actual_Vehicle_Speed, self.CAF_Vehicle_Speed_Limit)
+            self.assertTrue(r.Sensor_Input_Ok)
+            self.assertEqual(1, r.Vehicle_State)
+
+            r = log.pop(0)
+            self.assertTrue(r.CAF_Is_Active)
+
+    def test_caf_false_activation_veichle_speed(self):
+        log = log_to_records(
+            self.log_dir + "caf_false_activation/case_veichle_speed_log.json"
+        )
+
+        for r in log:
+            self.assertGreater(r.Actual_Vehicle_Speed, self.CAF_Vehicle_Speed_Limit)
+            self.assertFalse(r.CAF_Is_Active)
+
+
+# needed for report generation
+if __name__ == "__main__":
+    HTMLTestRunner.main()
