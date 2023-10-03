@@ -25,15 +25,7 @@ class TestCAF(unittest.TestCase):
         cls.project_name: str
         cls.CAF_Vehicle_Speed_Limit: int
         cls.CAF_TimeOut: int
-
         cls.log_dir = "../logs/" + cls.project_name + "/"
-
-        cls.generate_test_data()
-
-    # Maybe for test data generation based on the project settings
-    @classmethod
-    def generate_test_data(cls):
-        pass
 
     def test_caf_activation(self):
         case_logs_path = self.log_dir + "caf_activation"
@@ -57,6 +49,21 @@ class TestCAF(unittest.TestCase):
         for r in log:
             self.assertGreater(r.Actual_Vehicle_Speed, self.CAF_Vehicle_Speed_Limit)
             self.assertFalse(r.CAF_Is_Active)
+
+    def test_caf_deactivation(self):
+        log = log_to_records(
+            self.log_dir + "caf_deactivation/case_speed_timeout_log.json"
+        )
+
+        for r in log[:-1]:
+            self.assertGreater(r.Actual_Vehicle_Speed, self.CAF_Vehicle_Speed_Limit)
+            self.assertTrue(r.CAF_Is_Active)
+
+        self.assertGreater(log[-1].Timestamp - log[0].Timestamp, self.CAF_TimeOut)
+
+        r = log[-1]
+        self.assertFalse(r.CAF_Is_Active)
+        self.assertEqual(2, r.CAF_Is_Off_Alert)
 
 
 # needed for report generation
