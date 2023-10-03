@@ -12,7 +12,7 @@
     "Actual_Vehicle_Speed": 50,
     "Sensor_Input_Ok": true,
     "Vehicle_State": 1,
-    "CAF_Is_Active": false,
-    "CAF_Is_Off_Alert": 2
+    "CAF_Is_Active": true,
+    "CAF_Is_Off_Alert": 0
   }
 ]
