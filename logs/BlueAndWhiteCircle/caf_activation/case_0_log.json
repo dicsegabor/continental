@@ -1,7 +1,7 @@
 [
   {
     "Timestamp": 0,
-    "Actual_Vehicle_Speed": 60,
+    "Actual_Vehicle_Speed": 59,
     "Sensor_Input_Ok": true,
     "Vehicle_State": 1,
     "CAF_Is_Active": false,
@@ -9,7 +9,7 @@
   },
   {
     "Timestamp": 100,
-    "Actual_Vehicle_Speed": 60,
+    "Actual_Vehicle_Speed": 59,
     "Sensor_Input_Ok": true,
     "Vehicle_State": 1,
     "CAF_Is_Active": true,
