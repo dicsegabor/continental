@@ -1,10 +1,13 @@
 # System config
-Python version = 3.11.5
+Python version = 3.11.5   
 OS: Manjaro linux
 
 Usage: run install.sh, then run run_tests_generate_report.sh 
 Without report creation (from venv) run: 
-`cd src/\npython -m unittest tests.py -v`  
+```
+cd src/
+python -m unittest tests.py -v
+```
 
 # Project files
 * ./project_parameters.json = holds the project specific variables
