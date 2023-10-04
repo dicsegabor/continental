@@ -1,10 +1,10 @@
-from json import load, dumps
+import json
 from typing import Self
 
 
 def open_json(path: str):
     with open(path, "r") as f:
-        return load(f)
+        return json.load(f)
 
 
 class Record:
@@ -43,4 +43,4 @@ def log_to_records(path: str) -> list[Record]:
 
 # wanted to use this for data generation, then I understood the assignment
 def records_to_json(log: list[Record]) -> str:
-    return dumps([r.__dict__ for r in log])
+    return json.dumps([r.__dict__ for r in log])
